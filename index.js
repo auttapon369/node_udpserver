@@ -37,7 +37,7 @@ server.on('listening', function () {
 // That means, when we use FUDPPing::UDPEcho in Unreal Engine 4 this event will trigger.
 server.on('message', function (message, remote) {
     //console.log('Message received from ' + remote.address + ':' + remote.port +' - ' + message.toString());
-    //console.log(message.toString());
+    console.log(message.toString());
     receiveSplitData(message);
     server.send(message, 0, message.length, remote.port, remote.address, function(err, bytes) {
 	  if (err) throw err;
@@ -87,11 +87,14 @@ function SplitData(data)
 
         }else
         {
+          if(results.length > 0)
+          {
+         
           min =results[0].levelDown;
           max =results[0].levelUp;
           cal = (value - 4)/16 *(max-min) + min;
 
-          console.log(results);
+          //console.log(results);
 
 
          var insertData="INSERT INTO TTdata(deviceID,dataValue,dataDatetime,dataUpdate,dataStatus)VALUES ?";
@@ -101,8 +104,9 @@ function SplitData(data)
 
         connection.query(insertData,[values], function (error, results, fields) {
           if (error) throw error;
-          console.log('The solution is: ', values);
+          console.log('The solution is: OK ');
         });
+      }
 
     
 
